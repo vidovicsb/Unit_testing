@@ -21,6 +21,10 @@ class TestAsyncio(unittest.IsolatedAsyncioTestCase):        # IsolatedAsyncioTes
     
     async def slow_function(self):
         await asyncio.sleep(2)
+        
+    async def async_run(self):
+        """A simple async function."""
+        return 10
     
     async def test_async_function(self):
         """Checks if async function runs correctly."""
@@ -71,6 +75,12 @@ class TestAsyncio(unittest.IsolatedAsyncioTestCase):        # IsolatedAsyncioTes
         with self.assertRaises(asyncio.TimeoutError):
             # Wait 1 sec before raising timeout error
             await asyncio.wait_for(self.slow_function(), timeout=1)
+            
+    def test_async_run(self):
+        """Check if async.run() works properly."""
+        result = asyncio.run(self.async_run())
+        self.assertEqual(result, 10)
+    
             
 
 if __name__ == '__main__':
